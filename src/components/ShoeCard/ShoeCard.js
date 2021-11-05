@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, {keyframes} from 'styled-components/macro';
 
 import { WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
@@ -82,6 +82,12 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
   width: 100%;
   border-radius: 16px 16px 4px 4px;
+  transition: transform 650ms;
+
+  &:hover{
+    transform: scale(1.15);
+    transition: transform 350ms;
+  }
 `;
 
 const Row = styled.div`
@@ -122,12 +128,25 @@ const Flag = styled.div`
   color: var(--color-white);
   border-radius: 2px;
 `;
-
+const float = keyframes`
+  from{
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0px);
+    opacity: 1;
+  }
+`
 const SaleFlag = styled(Flag)`
   background-color: var(--color-primary);
+  animation: ${float} 350ms;
+  animation-fill-mode: both;
 `;
 const NewFlag = styled(Flag)`
   background-color: var(--color-secondary);
+  animation: ${float} 1000ms;
+  animation-fill-mode: both;
 `;
 
 export default ShoeCard;
