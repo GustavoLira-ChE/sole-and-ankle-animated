@@ -20,12 +20,30 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLink href="/sale">
+            <FrontFace>Sale</FrontFace>
+            <BackFace>Sale</BackFace>
+          </NavLink>
+          <NavLink href="/new">
+            <FrontFace>New&nbsp;Releases</FrontFace>
+            <BackFace>New&nbsp;Releases</BackFace>
+          </NavLink>
+          <NavLink href="/men">
+            <FrontFace>Men</FrontFace>
+            <BackFace>Men</BackFace>
+          </NavLink>
+          <NavLink href="/women">
+            <FrontFace>Women</FrontFace>
+            <BackFace>Women</BackFace>
+          </NavLink>
+          <NavLink href="/kids">
+            <FrontFace>Kids</FrontFace>
+            <BackFace>Kids</BackFace>
+          </NavLink>
+          <NavLink href="/collections">
+            <FrontFace>Collections</FrontFace>
+            <BackFace>Collections</BackFace>
+          </NavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -76,6 +94,9 @@ const DesktopNav = styled.nav`
   gap: clamp(1rem, 9.2vw - 4.5rem, 3.5rem);
   margin: 0px 48px;
 
+  /* Flipping de Navlink */
+  perspective: 500px;
+
   @media ${QUERIES.tabletAndSmaller} {
     display: none;
   }
@@ -113,16 +134,46 @@ const Filler = styled.div`
     display: none;
   }
 `;
-
-const NavLink = styled.a`
+const FrontFace = styled.div`
   font-size: 1.125rem;
   text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
 
-  &:first-of-type {
+  /* Flipping the Navlink */
+  transition: transform 400ms;
+  will-change: transform;
+  backface-visibility: hidden;
+  /* Vendor prefix for Safari */
+  -webkit-backface-visibility: hidden;
+
+`
+const BackFace = styled(FrontFace)`
+  font-weight: ${WEIGHTS.bold};
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateX(180deg);
+  transform-origin: 0px bottom;
+`
+const NavLink = styled.a`
+  /* Flipping de Navlink */
+  position: relative;
+  display: block;
+
+  text-decoration: none;
+  color: var(--color-gray-900);
+  &:first-of-type{
     color: var(--color-secondary);
+  }
+  &:hover ${FrontFace},
+  &:focus ${FrontFace} {
+    transform: rotateX(-180deg);
+    transform-origin: 0px bottom;
+  }
+  &:hover ${BackFace},
+  &:focus ${BackFace} {
+    transform: rotateX(0deg);
+    transform-origin: 0px bottom;
   }
 `;
 
